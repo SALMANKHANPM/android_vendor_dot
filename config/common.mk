@@ -80,6 +80,18 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 # Don't compile SystemUITests
 EXCLUDE_SYSTEMUI_TESTS := true
 
+# Face Unlock
+TARGET_FACE_UNLOCK_SUPPORTED ?= true
+ifneq ($(TARGET_GAPPS_ARCH),arm64)
+TARGET_FACE_UNLOCK_SUPPORTED := false
+endif
+ifeq ($(TARGET_FACE_UNLOCK_SUPPORTED),true)
+PRODUCT_PACKAGES += \
+    FaceUnlockService
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+    ro.face.moto_unlock_service=$(TARGET_FACE_UNLOCK_SUPPORTED)
+endif
+
 # Do not include art debug targets
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
 
